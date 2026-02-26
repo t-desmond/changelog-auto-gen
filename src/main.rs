@@ -5,6 +5,11 @@ fn add(a: i32, b: i32) -> i32 {
 fn subtract(a: i32, b: i32) -> i32 {
     a - b
 }
+
+fn divide(a: i32, b: i32) -> i32 {
+    a - b
+}
+
 fn main() {
     println!("{}", add(2, 2));
     println!("{}", subtract(5, 3));
@@ -22,5 +27,10 @@ mod tests {
     #[test]
     fn test_subtract() {
         assert_eq!(subtract(5, 3), 2);
+    }
+
+    #[test]
+    fn test_divide() {
+        assert_eq!(divide(6, 2), 3);
     }
 }
