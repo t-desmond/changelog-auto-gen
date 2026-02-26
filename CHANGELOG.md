@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.2.3 - 2026-02-26
+
+[3ee48af](https://github.com/t-desmond/changelog-auto-gen/commit/3ee48af669f02f22ff2fdb77cf25096bf0b22ec7)...[ab9540c](https://github.com/t-desmond/changelog-auto-gen/commit/ab9540c6e35976b54d87feba57a137a0ed88538f)
+
+### Features
+
+- Drop support for triangle and added square ([`ab9540c`](https://github.com/t-desmond/changelog-auto-gen/commit/ab9540c6e35976b54d87feba57a137a0ed88538f))
+
+## 0.2.2 - 2026-02-26
+
+[943c403](https://github.com/t-desmond/changelog-auto-gen/commit/943c403c36ac6dd0a4d1199fcf3147a4ed8b6816)...[3ee48af](https://github.com/t-desmond/changelog-auto-gen/commit/3ee48af669f02f22ff2fdb77cf25096bf0b22ec7)
+
+### Features
+
+- Added support for triangles ([`3ee48af`](https://github.com/t-desmond/changelog-auto-gen/commit/3ee48af669f02f22ff2fdb77cf25096bf0b22ec7))
+
+### Miscellaneous Tasks
+
+- Update CHANGELOG.md ([`8ebd798`](https://github.com/t-desmond/changelog-auto-gen/commit/8ebd798dc4d40dd5f952b252612c0a752d035ef7))
+
 ## 0.2.1 - 2026-02-26
 
 [3162928](https://github.com/t-desmond/changelog-auto-gen/commit/31629282fb833be7f00d5ecdecad50ca7cc52048)...[943c403](https://github.com/t-desmond/changelog-auto-gen/commit/943c403c36ac6dd0a4d1199fcf3147a4ed8b6816)
