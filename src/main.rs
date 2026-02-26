@@ -1,34 +1,19 @@
+mod math;
+use math::arithmetics::MathOperations;
+
 fn main() {
-    println!("{}", MathOperations::add(2, 2));
-    println!("{}", MathOperations::subtract(5, 3));
-    println!("{}", MathOperations::divide(6, 2));
-    println!("{}", MathOperations::multiply(3, 4));
-    println!("{}", MathOperations::modulus(10, 3));
+    let sum = MathOperations::add(5, 10);
+    let difference = MathOperations::subtract(10, 5);
+    let product = MathOperations::multiply(5, 10);
+    let quotient = MathOperations::divide(10, 5);
+    let modulus = MathOperations::modulus(10, 3);
+    print!("Sum: {}\n", sum);
+    print!("Difference: {}\n", difference);
+    print!("Product: {}\n", product);
+    print!("Quotient: {}\n", quotient);
+    print!("Modulus: {}\n", modulus);
 }
 
-struct MathOperations;
-
-impl MathOperations {
-    fn add(a: i32, b: i32) -> i32 {
-        a + b
-    }
-
-    fn subtract(a: i32, b: i32) -> i32 {
-        a - b
-    }
-
-    fn divide(a: i32, b: i32) -> i32 {
-        a / b
-    }
-
-    fn multiply(a: i32, b: i32) -> i32 {
-        a * b
-    }
-
-    fn modulus(a: i32, b: i32) -> i32 {
-        a % b
-    }
-}
 #[cfg(test)]
 mod tests {
     use super::*;
