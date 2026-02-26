@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## 0.2.0 - 2026-02-26
 
-[1cfa748](1cfa748ebea4f939a9788635d616216bddf80a84)...[542bb37](542bb376d4f96f7e2416fe3995785ca857e2e5e7)
+[1cfa748](1cfa748ebea4f939a9788635d616216bddf80a84)...[69c8216](69c82169191953f602455185ad75b2d5ca402013)
 
 ### Features
 
@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ### Miscellaneous Tasks
 
 - Added cliff configuration ([7930c35](7930c35f374d16e823d8eab20758d3170fd8d3f1))
+- Updated ci ([69c8216](69c82169191953f602455185ad75b2d5ca402013))
 
 ## 0.1.1 - 2026-02-26
 
