@@ -22,22 +22,16 @@ impl Point {
     }
 }
 
-pub struct Triangle {
-    pub a: Point,
-    pub b: Point,
-    pub c: Point,
+pub struct Square {
+    pub side: f64,
 }
 
-impl Triangle {
-    pub fn new(a: Point, b: Point, c: Point) -> Self {
-        Triangle { a, b, c }
+impl Square {
+    pub fn new(side: f64) -> Self {
+        Square { side }
     }
 
     pub fn area(&self) -> f64 {
-        let ab = self.a.distance(&self.b);
-        let bc = self.b.distance(&self.c);
-        let ca = self.c.distance(&self.a);
-        let s = (ab + bc + ca) / 2.0;
-        (s * (s - ab) * (s - bc) * (s - ca)).sqrt()
+        self.side * self.side
     }
 }

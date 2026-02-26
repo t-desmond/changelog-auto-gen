@@ -9,8 +9,8 @@ fn main() {
     let midpoint = point1.midpoint(&point2);
     print!("Midpoint: ({}, {})\n", midpoint.x, midpoint.y);
 
-    let triangle = math::geometry::Triangle::new(point1, point2, Point::new(0.0, 0.0));
-    print!("Area of triangle: {}\n", triangle.area());
+    let square = math::geometry::Square::new(5.0);
+    print!("Area of square: {}\n", square.area());
 
     let sum = MathOperations::add(5, 10);
     let difference = MathOperations::subtract(10, 5);
@@ -71,11 +71,7 @@ mod tests {
 
     #[test]
     fn test_area() {
-        let triangle = math::geometry::Triangle::new(
-            Point::new(0.0, 0.0),
-            Point::new(4.0, 0.0),
-            Point::new(2.0, 3.0),
-        );
-        assert_eq!(triangle.area(), 6.0);
+        let square = math::geometry::Square::new(5.0);
+        assert_eq!(square.area(), 25.0);
     }
 }
