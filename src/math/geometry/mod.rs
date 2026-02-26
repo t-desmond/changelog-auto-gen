@@ -21,3 +21,23 @@ impl Point {
         }
     }
 }
+
+pub struct Triangle {
+    pub a: Point,
+    pub b: Point,
+    pub c: Point,
+}
+
+impl Triangle {
+    pub fn new(a: Point, b: Point, c: Point) -> Self {
+        Triangle { a, b, c }
+    }
+
+    pub fn area(&self) -> f64 {
+        let ab = self.a.distance(&self.b);
+        let bc = self.b.distance(&self.c);
+        let ca = self.c.distance(&self.a);
+        let s = (ab + bc + ca) / 2.0;
+        (s * (s - ab) * (s - bc) * (s - ca)).sqrt()
+    }
+}
