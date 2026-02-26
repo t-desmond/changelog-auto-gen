@@ -55,7 +55,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-artifact
-          path: changelog-${{ steps.get_version.outputs.VERSION }}
+          path: |
+            changelog-${{ steps.get_version.outputs.VERSION }}
+            CHANGELOG.md
 
       - name: Generate CHANGELOG.md
         if: startsWith(github.ref, 'refs/tags/v')
