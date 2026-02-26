@@ -50,3 +50,19 @@ jobs:
         with:
           name: release-artifact
           path: changelog-${{ steps.get_version.outputs.VERSION }}
+
+      - name: Generate CHANGELOG.md
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --output CHANGELOG.md
+          
+      - name: Commit updated CHANGELOG.md
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: ryancyq/github-signed-commit@v1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: CHANGELOG.md
+          commit-message: "docs: update CHANGELOG.md"
