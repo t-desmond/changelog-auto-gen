@@ -3,6 +3,7 @@ fn main() {
     println!("{}", MathOperations::subtract(5, 3));
     println!("{}", MathOperations::divide(6, 2));
     println!("{}", MathOperations::multiply(3, 4));
+    println!("{}", MathOperations::modulus(10, 3));
 }
 
 struct MathOperations;
@@ -22,6 +23,10 @@ impl MathOperations {
 
     fn multiply(a: i32, b: i32) -> i32 {
         a * b
+    }
+
+    fn modulus(a: i32, b: i32) -> i32 {
+        a % b
     }
 }
 #[cfg(test)]
@@ -46,5 +51,10 @@ mod tests {
     #[test]
     fn test_multiply() {
         assert_eq!(MathOperations::multiply(3, 4), 12);
+    }
+
+    #[test]
+    fn test_modulus() {
+        assert_eq!(MathOperations::modulus(10, 3), 1);
     }
 }
