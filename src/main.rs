@@ -6,6 +6,8 @@ fn main() {
     let point1 = Point::new(3.0, 4.0);
     let point2 = Point::new(7.0, 1.0);
     print!("Distance between points: {}\n", point1.distance(&point2));
+    let midpoint = point1.midpoint(&point2);
+    print!("Midpoint: ({}, {})\n", midpoint.x, midpoint.y);
 
     let sum = MathOperations::add(5, 10);
     let difference = MathOperations::subtract(10, 5);
@@ -53,5 +55,14 @@ mod tests {
         let point1 = Point::new(0.0, 0.0);
         let point2 = Point::new(3.0, 4.0);
         assert_eq!(point1.distance(&point2), 5.0);
+    }
+
+    #[test]
+    fn test_midpoint() {
+        let point1 = Point::new(0.0, 0.0);
+        let point2 = Point::new(4.0, 4.0);
+        let midpoint = point1.midpoint(&point2);
+        assert_eq!(midpoint.x, 2.0);
+        assert_eq!(midpoint.y, 2.0);
     }
 }

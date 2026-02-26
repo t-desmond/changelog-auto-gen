@@ -1,6 +1,6 @@
 pub struct Point {
-    x: f64,
-    y: f64,
+    pub x: f64,
+    pub y: f64,
 }
 
 impl Point {
@@ -12,5 +12,12 @@ impl Point {
         let dx = self.x - other.x;
         let dy = self.y - other.y;
         (dx * dx + dy * dy).sqrt()
+    }
+
+    pub fn midpoint(&self, other: &Point) -> Point {
+        Point {
+            x: (self.x + other.x) / 2.0,
+            y: (self.y + other.y) / 2.0,
+        }
     }
 }
