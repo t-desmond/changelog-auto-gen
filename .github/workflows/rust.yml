@@ -10,16 +10,15 @@ on:
 
 permissions:
   pull-requests: write
-  contents: write 
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0   # full history for PR and changelog
 
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
@@ -42,30 +41,27 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: mv target/release/changelog changelog-${{ steps.get_version.outputs.VERSION }}
 
-      - name: Create GitHub release
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: changelog-${{ steps.get_version.outputs.VERSION }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload release artifact
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-artifact
-          path: |
-            changelog-${{ steps.get_version.outputs.VERSION }}
-            CHANGELOG.md
-
       - name: Generate CHANGELOG.md
         if: startsWith(github.ref, 'refs/tags/v')
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
           args: --output CHANGELOG.md
-          
+
+      - name: Push tag (ensure it exists remotely)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: git push origin $GITHUB_REF
+
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            changelog-${{ steps.get_version.outputs.VERSION }}
+            CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Pull Request
         if: startsWith(github.ref, 'refs/tags/v')
         uses: peter-evans/create-pull-request@v4
@@ -75,7 +71,7 @@ jobs:
           title: "📝 Update Changelog"
           body: |
             This PR updates the CHANGELOG.md to include all releases.
-            - Generated using git-chglog
+            - Generated using git-cliff
             - Triggered by: ${{ github.event_name }}
             - Auto-merge enabled
           branch: update-changelog-${{ github.run_id }}
