@@ -7,12 +7,13 @@ fn subtract(a: i32, b: i32) -> i32 {
 }
 
 fn divide(a: i32, b: i32) -> i32 {
-    a - b
+    a / b
 }
 
 fn main() {
     println!("{}", add(2, 2));
     println!("{}", subtract(5, 3));
+    println!("{}", divide(6, 2));
 }
 
 #[cfg(test)]
