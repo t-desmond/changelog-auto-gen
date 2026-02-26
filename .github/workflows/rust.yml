@@ -41,24 +41,28 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: mv target/release/changelog changelog-${{ steps.get_version.outputs.VERSION }}
 
-      - name: Generate CHANGELOG.md
+      - name: Generate release notes (latest only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        id: git_cliff
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --latest --strip header
+
+      - name: Generate full CHANGELOG.md
         if: startsWith(github.ref, 'refs/tags/v')
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
           args: --output CHANGELOG.md
 
-      - name: Push tag (ensure it exists remotely)
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: git push origin $GITHUB_REF
-
       - name: Create GitHub release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
+          body: ${{ steps.git_cliff.outputs.content }}
           files: |
             changelog-${{ steps.get_version.outputs.VERSION }}
-            CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
