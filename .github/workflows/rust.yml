@@ -2,9 +2,9 @@ name: Rust CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,12 +12,39 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
+
       - name: Build
-        run: cargo build --verbose
+        run: cargo build --release --verbose
+
       - name: Run tests
         run: cargo test --verbose
+
+      - name: Get the version
+        if: startsWith(github.ref, 'refs/tags/v')
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Rename artifact to include version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: mv target/release/changelog changelog-${{ steps.get_version.outputs.VERSION }}
+
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: changelog-${{ steps.get_version.outputs.VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload release artifact
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-artifact
+          path: changelog-${{ steps.get_version.outputs.VERSION }}
