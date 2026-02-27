@@ -1,7 +1,11 @@
 name: Auto commit changes
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
     branches:
       - main
       - 'release/*'
@@ -11,33 +15,19 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - run: echo -e "\n$(date)" >> README.md
 
-      - name: Push signed commit to staging branch
-        uses: planetscale/ghcommit-action@v0.2.18
+      - uses: planetscale/ghcommit-action@v0.2.20
         with:
           commit_message: "chore: auto commit"
           repo: ${{ github.repository }}
-          branch: auto-commit/${{ github.run_id }}
-          create_branch: true
-          base_branch: ${{ github.ref_name }}
+          branch: ${{ github.head_ref }}
+          file_pattern: 'README.md'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: "chore: auto commit README update"
-          body: |
-            - Triggered by: ${{ github.event_name }}
-            - Branch: ${{ github.ref_name }}
-          branch: auto-commit/${{ github.run_id }}
-          base: ${{ github.ref_name }}
-          delete-branch: true
-          labels: automated-pr
