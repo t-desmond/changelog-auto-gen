@@ -21,13 +21,18 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
       - run: echo -e "\n$(date)" >> README.md
 
-      - uses: planetscale/ghcommit-action@v0.2.20
-        with:
-          commit_message: "chore: auto commit"
-          repo: ${{ github.repository }}
-          branch: ${{ github.head_ref }}
-          file_pattern: 'README.md'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit signed changes
+        run: |
+          git add README.md
+          git commit -S -m "chore: auto commit"
+          git push
