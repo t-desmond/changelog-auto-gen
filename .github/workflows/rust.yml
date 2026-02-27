@@ -2,6 +2,8 @@ name: Auto commit changes
 
 on:
   push:
+    branches-ignore:
+      - main
 
 jobs:
   commit:
@@ -11,15 +13,26 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
-      - run: echo -e "\n`date`" >> README.md
+      - run: echo -e "\n$(date)" >> README.md
 
       - uses: planetscale/ghcommit-action@v0.2.18
         with:
           commit_message: "chore: auto commit"
           repo: ${{ github.repository }}
-          branch: ${{ github.head_ref || github.ref_name }}
+          branch: ${{ github.ref_name }}
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "chore: auto commit README update"
+          body: |
+            - Triggered by: ${{ github.event_name }}
+            - Branch: ${{ github.ref_name }}
+          branch: auto-commit/${{ github.run_id }}
+          base: ${{ github.event.repository.default_branch }}
+          delete-branch: true
+          labels: automated-pr
