@@ -35,8 +35,17 @@ jobs:
 
       - run: echo -e "\n$(date)" >> README.md
 
-      - name: Commit signed changes
-        run: |
-          git add README.md
-          git commit -S -m "chore: auto commit"
-          git push
+      - name: Create Pull Request to update CHANGELOG.md
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update CHANGELOG.md"
+          title: "Update Changelog"
+          body: |
+            This PR updates the CHANGELOG.md to include all releases.
+            - Generated using git-cliff
+            - Triggered by: ${{ github.event_name }}
+          branch: update-changelog-${{ github.run_id }}
+          base: main
+          delete-branch: true
+          labels: documentation, automated-pr
