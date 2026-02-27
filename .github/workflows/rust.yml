@@ -37,6 +37,10 @@ jobs:
 
       - run: echo -e "\n$(date)" >> README.md
 
+      - run: |
+          git add README.md CHANGELOG.md
+          git commit -m "chore: update CHANGELOG.md"
+
       - name: Create Pull Request to update CHANGELOG.md
         uses: peter-evans/create-pull-request@v4
         with:
