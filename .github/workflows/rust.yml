@@ -18,21 +18,14 @@ jobs:
 
       - run: echo -e "\n$(date)" >> README.md
 
-      - uses: chainguard-dev/actions/setup-gitsign@0cda751b114eb55c388e88f7479292668165602a # v1.0.2
-      - shell: bash
-        run: |
-          # Required git config unrelated to gitsign
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "GitHub Actions Bot"
-
-          # Make the commit
-          git commit --allow-empty --message="Signed commit"
-
-      - uses: planetscale/ghcommit-action@v0.2.18
+      - name: Push signed commit to staging branch
+        uses: planetscale/ghcommit-action@v0.2.18
         with:
           commit_message: "chore: auto commit"
           repo: ${{ github.repository }}
-          branch: ${{ github.ref_name }}
+          branch: auto-commit/${{ github.run_id }}
+          create_branch: true
+          base_branch: ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -45,6 +38,6 @@ jobs:
             - Triggered by: ${{ github.event_name }}
             - Branch: ${{ github.ref_name }}
           branch: auto-commit/${{ github.run_id }}
-          base: ${{ github.event.repository.default_branch }}
+          base: ${{ github.ref_name }}
           delete-branch: true
           labels: automated-pr
