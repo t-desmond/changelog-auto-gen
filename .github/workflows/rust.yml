@@ -2,8 +2,9 @@ name: Auto commit changes
 
 on:
   push:
-    branches-ignore:
+    branches:
       - main
+      - 'release/*'
 
 jobs:
   commit:
