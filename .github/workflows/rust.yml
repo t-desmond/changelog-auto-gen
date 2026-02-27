@@ -51,4 +51,3 @@ jobs:
           base: main
           delete-branch: true
           labels: documentation, automated-pr
-          
