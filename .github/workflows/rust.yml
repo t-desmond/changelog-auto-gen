@@ -18,6 +18,16 @@ jobs:
 
       - run: echo -e "\n$(date)" >> README.md
 
+      - uses: chainguard-dev/actions/setup-gitsign@0cda751b114eb55c388e88f7479292668165602a # v1.0.2
+      - shell: bash
+        run: |
+          # Required git config unrelated to gitsign
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions Bot"
+
+          # Make the commit
+          git commit --allow-empty --message="Signed commit"
+
       - uses: planetscale/ghcommit-action@v0.2.18
         with:
           commit_message: "chore: auto commit"
